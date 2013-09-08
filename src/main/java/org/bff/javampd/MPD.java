@@ -117,11 +117,11 @@ public class MPD {
     /**
      * status of paused
      */
-    protected static final String STATUS_PAUSED = "Id:";
+    protected static final String STATUS_PAUSED = "pause";
     /**
      * status of stopped
      */
-    protected static final String STATUS_STOPPED = "Id:";
+    protected static final String STATUS_STOPPED = "stop";
     /**
      * Default MPD port
      */

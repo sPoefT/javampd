@@ -691,7 +691,7 @@ public class MPDPlayer {
         String status = mpd.getStatus(MPD.StatusList.STATE);
         if (status.equalsIgnoreCase(MPD.STATUS_PLAYING)) {
             return (PlayerStatus.STATUS_PLAYING);
-        } else if (status.equalsIgnoreCase(MPD.STATUS_PLAYING)) {
+        } else if (status.equalsIgnoreCase(MPD.STATUS_PAUSED)) {
             return (PlayerStatus.STATUS_PAUSED);
         } else {
             return (PlayerStatus.STATUS_STOPPED);
