@@ -285,9 +285,13 @@ public class MPD {
     }
 
     /**
-     * Default no argument constructor
+     * Default no argument constructor. Connects to "localhost"
+     * @throws org.bff.javampd.exception.MPDConnectionException
+     *                                       if there is a problem sending the command to the server
+     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
      */
-    public MPD() {
+    public MPD() throws UnknownHostException, MPDConnectionException {
+    	this("localhost");
     }
 
     /**
