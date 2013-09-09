@@ -206,59 +206,59 @@ public class MPD {
         /**
          * The current volume (0-100)
          */
-        VOLUME("volume:"),
+        VOLUME("volume"),
         /**
          * is the song repeating (0 or 1)
          */
-        REPEAT("repeat:"),
+        REPEAT("repeat"),
         /**
          * is the song playing in random order (0 or 1)
          */
-        RANDOM("random:"),
+        RANDOM("random"),
         /**
          * the playlist version number (31-bit unsigned integer)
          */
-        PLAYLIST("playlist:"),
+        PLAYLIST("playlist"),
         /**
          * the length of the playlist
          */
-        PLAYLISTLENGTH("playlistlength:"),
+        PLAYLISTLENGTH("playlistlength"),
         /**
          * the current state (play, stop, or pause)
          */
-        STATE("state:"),
+        STATE("state"),
         /**
          * playlist song number of the current song stopped on or playing
          */
-        CURRENTSONG("song:"),
+        CURRENTSONG("song"),
         /**
          * playlist song id of the current song stopped on or playing
          */
-        CURRENTSONGID("songid:"),
+        CURRENTSONGID("songid"),
         /**
          * the time of the current playing/paused song
          */
-        TIME("time:"),
+        TIME("time"),
         /**
          * instantaneous bitrate in kbps
          */
-        BITRATE("bitrate:"),
+        BITRATE("bitrate"),
         /**
          * crossfade in seconds
          */
-        XFADE("xfade:"),
+        XFADE("xfade"),
         /**
          * the current sample rate, bits, and channels
          */
-        AUDIO("audio:"),
+        AUDIO("audio"),
         /**
          * job id
          */
-        UPDATINGSDB("updatings_db:"),
+        UPDATINGSDB("updatings_db"),
         /**
          * if there is an error, returns message here
          */
-        ERROR("error:");
+        ERROR("error");
         private String prefix;
 
         /**
@@ -535,10 +535,24 @@ public class MPD {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command to the server
      */
-    public Collection<String> getStatus() throws MPDConnectionException, MPDResponseException {
+    public Map<String, String> getStatus() throws MPDConnectionException, MPDResponseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPSTATUS));
         List<String> respList = new ArrayList<String>(sendMPDCommand(command));
-        return (respList);
+        Map<String, String> result = new HashMap<String, String>();
+        
+        for (String entry : respList) {
+        	
+        	int splitPt = entry.indexOf(":");
+        	if (splitPt == -1) {
+	    		System.out.println("Invalid status message: " + entry);
+	    	} else {
+	       		String key = entry.substring(0, splitPt).trim();
+				String value = entry.substring(splitPt + 1).trim();
+				result.put(key, value);
+	    	}
+        }
+        
+        return result;
     }
 
     /**
@@ -719,15 +733,9 @@ public class MPD {
      *          if there is a problem sending the command to the server
      */
     protected String getStatus(StatusList status) throws MPDConnectionException, MPDResponseException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPSTATUS));
-        List<String> respList = new ArrayList<String>(sendMPDCommand(command));
+        Map<String, String> result = getStatus();
 
-        for (String line : respList) {
-            if (line.startsWith(status.getStatusPrefix())) {
-                return (line.substring(status.getStatusPrefix().length()).trim());
-            }
-        }
-        return (null);
+        return result.get(status.getStatusPrefix());
     }
 
     /**

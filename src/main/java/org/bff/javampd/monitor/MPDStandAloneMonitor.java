@@ -10,6 +10,7 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.MPD;
+import org.bff.javampd.MPD.StatusList;
 import org.bff.javampd.MPDOutput;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDConnectionException;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,88 +92,6 @@ public class MPDStandAloneMonitor
     private List<OutputChangeListener> outputListeners;
 
     /**
-     * Enumeration of the available information from the MPD
-     * server status.
-     */
-    private enum StatusList {
-
-        /**
-         * The current volume (0-100)
-         */
-        VOLUME("volume:"),
-        /**
-         * is the song repeating (0 or 1)
-         */
-        REPEAT("repeat:"),
-        /**
-         * the playlist version number (31-bit unsigned integer)
-         */
-        PLAYLIST("playlist:"),
-        /**
-         * the length of the playlist
-         */
-        PLAYLISTLENGTH("playlistlength:"),
-        /**
-         * the current state (play, stop, or pause)
-         */
-        STATE("state:"),
-        /**
-         * playlist song number of the current song stopped on or playing
-         */
-        CURRENTSONG("song:"),
-        /**
-         * playlist song id of the current song stopped on or playing
-         */
-        CURRENTSONGID("songid:"),
-        /**
-         * the time of the current playing/paused song
-         */
-        TIME("time:"),
-        /**
-         * instantaneous bitrate in kbps
-         */
-        BITRATE("bitrate:"),
-        /**
-         * crossfade in seconds
-         */
-        XFADE("xfade:"),
-        /**
-         * the cuurent samplerate, bits, and channels
-         */
-        AUDIO("audio:"),
-        /**
-         * job id
-         */
-        UPDATINGSDB("updatings_db:"), //<int job id>
-        /**
-         * if there is an error, returns message here
-         */
-        ERROR("error:");
-        /**
-         * the prefix associated with the status
-         */
-        private String prefix;
-
-        /**
-         * Enum constructor
-         *
-         * @param prefix the prefix of the line in the response
-         */
-        StatusList(String prefix) {
-            this.prefix = prefix;
-        }
-
-        /**
-         * Returns the <CODE>String</CODE> prefix of the response.
-         *
-         * @return the prefix of the response
-         */
-        public String getStatusPrefix() {
-            return (prefix);
-        }
-    }
-
-    /**
      * Creates a new instance of MPDStandAloneMonitor using the default delay
      * of 1 second.
      *
@@ -199,8 +120,7 @@ public class MPDStandAloneMonitor
         this.outputMap = new HashMap<Integer, MPDOutput>();
         try {
             //initial load so no events fired
-            List<String> response = new ArrayList<String>(mpd.getStatus());
-            processResponse(response);
+            processResponse(mpd.getStatus());
             loadOutputs(mpd.getMPDAdmin().getOutputs());
         } catch (MPDException ex) {
             ex.printStackTrace();
@@ -375,13 +295,13 @@ public class MPDStandAloneMonitor
      */
     @Override
     public void run() {
-        List<String> response;
+        Map<String, String> response;
         while (!isStopped()) {
 
             try {
                 try {
                     synchronized (this) {
-                        response = new ArrayList<String>(mpd.getStatus());
+                        response = mpd.getStatus();
                         processResponse(response);
 
                         checkError();
@@ -621,38 +541,41 @@ public class MPDStandAloneMonitor
         }
     }
 
-    private void processResponse(List<String> response) {
+    private void processResponse(Map<String, String> response) {
         newSongId = -1;
         newSong = -1;
         error = null;
 
-        for (String line : response) {
-            if (line.startsWith(StatusList.VOLUME.getStatusPrefix())) {
-                newVolume = Integer.parseInt(line.substring(StatusList.VOLUME.getStatusPrefix().length()).trim());
+        for (Entry<String, String> pair : response.entrySet()) {
+        	String key = pair.getKey();
+        	String value = pair.getValue();
+        	
+            if (StatusList.VOLUME.getStatusPrefix().equals(key)) {
+                newVolume = Integer.parseInt(value);
             }
-            if (line.startsWith(StatusList.PLAYLIST.getStatusPrefix())) {
-                newPlaylistVersion = Integer.parseInt(line.substring(StatusList.PLAYLIST.getStatusPrefix().length()).trim());
+            if (StatusList.PLAYLIST.getStatusPrefix().equals(key)) {
+                newPlaylistVersion = Integer.parseInt(value);
             }
-            if (line.startsWith(StatusList.PLAYLISTLENGTH.getStatusPrefix())) {
-                newPlaylistLength = Integer.parseInt(line.substring(StatusList.PLAYLISTLENGTH.getStatusPrefix().length()).trim());
+            if (StatusList.PLAYLISTLENGTH.getStatusPrefix().equals(key)) {
+                newPlaylistLength = Integer.parseInt(value);
             }
-            if (line.startsWith(StatusList.STATE.getStatusPrefix())) {
-                state = line.substring(StatusList.STATE.getStatusPrefix().length()).trim();
+            if (StatusList.STATE.getStatusPrefix().equals(key)) {
+                state = value;
             }
-            if (line.startsWith(StatusList.CURRENTSONG.getStatusPrefix())) {
-                newSong = Integer.parseInt(line.substring(StatusList.CURRENTSONG.getStatusPrefix().length()).trim());
+            if (StatusList.CURRENTSONG.getStatusPrefix().equals(key)) {
+                newSong = Integer.parseInt(value);
             }
-            if (line.startsWith(StatusList.CURRENTSONGID.getStatusPrefix())) {
-                newSongId = Integer.parseInt(line.substring(StatusList.CURRENTSONGID.getStatusPrefix().length()).trim());
+            if (StatusList.CURRENTSONGID.getStatusPrefix().equals(key)) {
+                newSongId = Integer.parseInt(value);
             }
-            if (line.startsWith(StatusList.TIME.getStatusPrefix())) {
-                elapsedTime = Long.parseLong(line.substring(StatusList.TIME.getStatusPrefix().length()).trim().split(":")[0]);
+            if (StatusList.TIME.getStatusPrefix().equals(key)) {
+                elapsedTime = Long.parseLong(value.split(":")[0]);
             }
-            if (line.startsWith(StatusList.BITRATE.getStatusPrefix())) {
-                newBitrate = Integer.parseInt(line.substring(StatusList.BITRATE.getStatusPrefix().length()).trim());
+            if (StatusList.BITRATE.getStatusPrefix().equals(key)) {
+                newBitrate = Integer.parseInt(value);
             }
-            if (line.startsWith(StatusList.ERROR.getStatusPrefix())) {
-                error = line.substring(StatusList.ERROR.getStatusPrefix().length()).trim();
+            if (StatusList.ERROR.getStatusPrefix().equals(key)) {
+                error = value;
             }
         }
     }
