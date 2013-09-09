@@ -390,7 +390,7 @@ public class MPDPlayer {
     }
 
     /**
-     * Returns the instantaneous bitrate of the currently playing song.
+     * Returns the instantaneous bitrate of the currently playing song or 0 if not available (no song playing)
      *
      * @return the instantaneous bitrate in kbps
      * @throws org.bff.javampd.exception.MPDPlayerException
@@ -400,9 +400,12 @@ public class MPDPlayer {
      */
     public int getBitrate() throws MPDConnectionException, MPDPlayerException {
         try {
-            return (Integer.parseInt(mpd.getStatus(MPD.StatusList.BITRATE)));
+            String bitrate = mpd.getStatus(MPD.StatusList.BITRATE);
+			return (Integer.parseInt(bitrate));
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+        } catch (NullPointerException npe) {
+        	return (0);
         }
     }
 

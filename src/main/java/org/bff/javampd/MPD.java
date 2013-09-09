@@ -726,7 +726,7 @@ public class MPD {
      * by getStatus.
      *
      * @param status the status desired
-     * @return the desired status information
+     * @return the desired status information or <code>null</code> if not available
      * @throws org.bff.javampd.exception.MPDResponseException
      *          if the MPD response generates an error
      * @throws org.bff.javampd.exception.MPDConnectionException
