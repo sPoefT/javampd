@@ -276,43 +276,98 @@ public class MPDSong extends MPDItem {
         this.discNumber = discNumber;
     }
 
-    /**
-     * Compares this MPDSong to the specified object.  The result is true if and only
-     * if the argument is not null and is a MPDSong that has the same file path.
-     *
-     * @param object the object to compare to
-     * @return true if the paths are equal; false otherwise
-     */
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return (true);
-        }
-
-        if ((object == null) || (object.getClass() != this.getClass())) {
-            return false;
-        }
-
-        MPDSong song = (MPDSong) object;
-        if (this.getFile().equals(song.getFile())) {
-            return (true);
-        } else {
-            return (false);
-        }
-    }
-
-    /**
-     * Returns the hash code for this object.
-     *
-     * @return the hash code
-     */
+	public boolean equals(Object obj) {
+		if (!super.equals(obj))
+			return false;
+		
+		MPDSong other = (MPDSong) obj;
+		
+		// Check same file first 
+		// -> this is the best candidate for early exit
+		if (file == null)
+		{
+			if (other.file != null)
+				return false;
+		}
+		else if (!file.equals(other.file))
+			return false;
+		if (album == null)
+		{
+			if (other.album != null)
+				return false;
+		}
+		else if (!album.equals(other.album))
+			return false;
+		if (artist == null)
+		{
+			if (other.artist != null)
+				return false;
+		}
+		else if (!artist.equals(other.artist))
+			return false;
+		if (comment == null)
+		{
+			if (other.comment != null)
+				return false;
+		}
+		else if (!comment.equals(other.comment))
+			return false;
+		if (discNumber == null)
+		{
+			if (other.discNumber != null)
+				return false;
+		}
+		else if (!discNumber.equals(other.discNumber))
+			return false;
+		if (genre == null)
+		{
+			if (other.genre != null)
+				return false;
+		}
+		else if (!genre.equals(other.genre))
+			return false;
+		if (id != other.id)
+			return false;
+		if (length != other.length)
+			return false;
+		if (position != other.position)
+			return false;
+		if (track != other.track)
+			return false;
+		if (year == null)
+		{
+			if (other.year != null)
+				return false;
+		}
+		else if (!year.equals(other.year))
+			return false;
+		
+		return true;
+	}
+    
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + getLength();
-        hash = 31 * hash + (null == getTitle() ? 0 : getTitle().hashCode());
-        return (hash);
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((file == null) ? 0 : file.hashCode());
+		result = prime * result + id;
+		result = prime * result + position;
+		
+		// Assuming that the following entries don't contribute much
+		// we skip them to save some computation time
+		
+//		result = prime * result + ((album == null) ? 0 : album.hashCode());
+//		result = prime * result + ((artist == null) ? 0 : artist.hashCode());
+//		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+//		result = prime * result + ((discNumber == null) ? 0 : discNumber.hashCode());
+//		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+//		result = prime * result + length;
+//		result = prime * result + track;
+//		result = prime * result + ((year == null) ? 0 : year.hashCode());
+
+		return result;
+	}
 
     @Override
     public int compareTo(MPDItem item) {
