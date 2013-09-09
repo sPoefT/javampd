@@ -18,7 +18,6 @@ package org.bff.javampd.objects;
  */
 public class MPDSong extends MPDItem {
 
-    private String title;
     private MPDArtist artist;
     private MPDAlbum album;
     private String file;
@@ -39,20 +38,22 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the name of the song.
+     * Name and title are equal.
      *
      * @return the name of the song.
      */
     public String getTitle() {
-        return title;
+        return getName();
     }
 
     /**
      * Sets the name of the song.
+     * Name and title are equal.
      *
      * @param title the name of the song
      */
     public void setTitle(String title) {
-        this.title = title;
+        setName(title);
     }
 
     /**
@@ -298,11 +299,6 @@ public class MPDSong extends MPDItem {
         } else {
             return (false);
         }
-    }
-
-    @Override
-    public String getName() {
-        return getTitle();
     }
 
     /**
