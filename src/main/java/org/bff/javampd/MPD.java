@@ -553,7 +553,7 @@ public class MPD {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command to the server
      */
-    protected synchronized Collection<String> sendMPDCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
+    protected synchronized List<String> sendMPDCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
         byte[] bytesToSend;
         List<String> responseList = new ArrayList<String>();
         OutputStream outStream = null;
@@ -760,7 +760,7 @@ public class MPD {
      * @param list the response from the MPD server
      * @return a MPDSong object
      */
-    protected Collection<MPDSong> convertResponseToSong(List<String> list) {
+    protected List<MPDSong> convertResponseToSong(List<String> list) {
         List<MPDSong> songList = new ArrayList<MPDSong>();
         Iterator<String> iter = list.iterator();
         String line = null;

@@ -122,7 +122,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
         return (findArtist(artist.getName()));
     }
 
@@ -138,7 +138,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
         return (find(ScopeType.ARTIST, artist));
     }
 
@@ -152,7 +152,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
         return (findGenre(genre.getName()));
     }
 
@@ -166,7 +166,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findGenre(String genre) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findGenre(String genre) throws MPDConnectionException, MPDDatabaseException {
         return (find(ScopeType.GENRE, genre));
     }
 
@@ -180,7 +180,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findYear(String year) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findYear(String year) throws MPDConnectionException, MPDDatabaseException {
         return (find(ScopeType.DATE, year));
     }
 
@@ -196,7 +196,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         return (findAlbum(album.getName()));
     }
 
@@ -212,7 +212,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
         return (find(ScopeType.ALBUM, album));
     }
 
@@ -229,7 +229,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
         List<MPDSong> songList = new ArrayList<MPDSong>(find(ScopeType.ALBUM, album.getName()));
@@ -256,7 +256,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
         List<MPDSong> songList = new ArrayList<MPDSong>(find(ScopeType.ALBUM, album.getName()));
@@ -283,7 +283,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
         List<MPDSong> songList = new ArrayList<MPDSong>(find(ScopeType.ALBUM, album.getName()));
@@ -309,7 +309,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDDatabaseException
      *          if the MPD responded with an error
      */
-    public Collection<MPDSong> findTitle(String title) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findTitle(String title) throws MPDConnectionException, MPDDatabaseException {
         return (find(ScopeType.TITLE, title));
     }
 
@@ -325,7 +325,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDDatabaseException
      *          if the MPD responded with an error
      */
-    public Collection<MPDSong> findAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> findAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
         return (find(ScopeType.ANY, criteria));
     }
 
@@ -339,7 +339,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<String> listAllFiles() throws MPDConnectionException, MPDDatabaseException {
+    public List<String> listAllFiles() throws MPDConnectionException, MPDDatabaseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALL));
 
         try {
@@ -362,7 +362,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<String> listAllFiles(String path) throws MPDConnectionException, MPDDatabaseException {
+    public List<String> listAllFiles(String path) throws MPDConnectionException, MPDDatabaseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALL), path);
 
         try {
@@ -384,7 +384,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<String> listAllSongFiles() throws MPDConnectionException, MPDDatabaseException {
+    public List<String> listAllSongFiles() throws MPDConnectionException, MPDDatabaseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALL));
         List<String> fileList;
 
@@ -418,7 +418,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<String> listAllSongFiles(String path) throws MPDConnectionException, MPDDatabaseException {
+    public List<String> listAllSongFiles(String path) throws MPDConnectionException, MPDDatabaseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALL), path);
         List<String> fileList;
 
@@ -450,7 +450,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALLINFO));
         List<String> songList;
 
@@ -476,7 +476,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> listAllSongs(String path) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> listAllSongs(String path) throws MPDConnectionException, MPDDatabaseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALLINFO), path);
         List<String> songList;
 
@@ -504,7 +504,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
         return (searchArtist(artist.getName()));
     }
 
@@ -521,7 +521,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
         return (search(ScopeType.ARTIST, artist));
     }
 
@@ -538,7 +538,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         return (searchAlbum(album.getName()));
     }
 
@@ -555,7 +555,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
         return (search(ScopeType.ALBUM, album));
     }
 
@@ -572,7 +572,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchTitle(String title) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchTitle(String title) throws MPDConnectionException, MPDDatabaseException {
         return (search(ScopeType.TITLE, title));
     }
 
@@ -588,7 +588,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
         return (search(ScopeType.ANY, criteria));
     }
 
@@ -607,7 +607,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
         for (MPDSong song : search(ScopeType.TITLE, title)) {
@@ -647,7 +647,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDSong> searchFileName(String fileName) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> searchFileName(String fileName) throws MPDConnectionException, MPDDatabaseException {
         fileName = Utils.removeSlashes(fileName);
         return (search(ScopeType.FILENAME, fileName));
     }
@@ -662,7 +662,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDAlbum> listAllAlbums() throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDAlbum> listAllAlbums() throws MPDConnectionException, MPDDatabaseException {
         List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
         for (String str : list(ListType.ALBUM)) {
             albums.add(new MPDAlbum(str));
@@ -680,7 +680,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDArtist> listAllArtists() throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDArtist> listAllArtists() throws MPDConnectionException, MPDDatabaseException {
         List<MPDArtist> artists = new ArrayList<MPDArtist>();
         for (String str : list(ListType.ARTIST)) {
             artists.add(new MPDArtist(str));
@@ -698,7 +698,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDGenre> listAllGenres() throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDGenre> listAllGenres() throws MPDConnectionException, MPDDatabaseException {
         List<MPDGenre> genres = new ArrayList<MPDGenre>();
         for (String str : list(ListType.GENRE)) {
             genres.add(new MPDGenre(str));
@@ -718,7 +718,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is aproblem sending the command
      */
-    public Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(artist.getName());
 
@@ -743,7 +743,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is aproblem sending the command
      */
-    public Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(ListType.GENRE.getType());
         list.add(genre.getName());
@@ -767,7 +767,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is aproblem sending the command
      */
-    public Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(ListType.GENRE.getType());
         list.add(genre.getName());
@@ -791,7 +791,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<MPDAlbum> listAlbumsByYear(String year) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDAlbum> listAlbumsByYear(String year) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(ListType.DATE.getType());
         list.add(year);
@@ -803,7 +803,7 @@ public class MPDDatabase {
         return (albums);
     }
 
-    private Collection<String> listInfo(ListInfoType... types) throws MPDConnectionException, MPDDatabaseException {
+    private List<String> listInfo(ListInfoType... types) throws MPDConnectionException, MPDDatabaseException {
         List<String> returnList = new ArrayList<String>();
         List<String> list;
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTINFO));
@@ -834,7 +834,7 @@ public class MPDDatabase {
      * @throws MPDConnectionException if there is a problem with the connection
      * @throws MPDDatabaseException   if the MPD responded with an error
      */
-    public Collection<MPDFile> listRootDirectory() throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDFile> listRootDirectory() throws MPDConnectionException, MPDDatabaseException {
         return listDirectory("");
     }
 
@@ -847,7 +847,7 @@ public class MPDDatabase {
      * @throws MPDDatabaseException   if the MPD responded with an error or the {@link MPDFile}
      *                                is not a directory.
      */
-    public Collection<MPDFile> listDirectory(MPDFile directory) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDFile> listDirectory(MPDFile directory) throws MPDConnectionException, MPDDatabaseException {
         if (directory.isDirectory()) {
             return listDirectory(directory.getPath());
         } else {
@@ -855,11 +855,11 @@ public class MPDDatabase {
         }
     }
 
-    private Collection<MPDFile> listDirectory(String directory) throws MPDConnectionException, MPDDatabaseException {
+    private List<MPDFile> listDirectory(String directory) throws MPDConnectionException, MPDDatabaseException {
         return listDirectoryInfo(directory);
     }
 
-    private Collection<MPDFile> listDirectoryInfo(String directory) throws MPDConnectionException, MPDDatabaseException {
+    private List<MPDFile> listDirectoryInfo(String directory) throws MPDConnectionException, MPDDatabaseException {
         List<MPDFile> returnList = new ArrayList<MPDFile>();
         List<String> list;
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTINFO), directory);
@@ -951,7 +951,7 @@ public class MPDDatabase {
      * @throws MPDConnectionException if there is a problem with the connection
      * @throws MPDDatabaseException   if the database throws an exception during the search
      */
-    public Collection<MPDSong> search(ScopeType searchType, String param) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> search(ScopeType searchType, String param) throws MPDConnectionException, MPDDatabaseException {
         String[] paramList;
 
         if (param != null) {
@@ -987,7 +987,7 @@ public class MPDDatabase {
      * @throws MPDConnectionException if there is a problem with the connection
      * @throws MPDDatabaseException   if the database throws an exception during the search
      */
-    public Collection<MPDSong> find(ScopeType scopeType, String param) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> find(ScopeType scopeType, String param) throws MPDConnectionException, MPDDatabaseException {
         String[] paramList;
 
         if (param != null) {
@@ -1134,7 +1134,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDDatabaseException
      *          if the MPD responded with an error
      */
-    public Collection<MPDSavedPlaylist> listSavedPlaylists() throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSavedPlaylist> listSavedPlaylists() throws MPDConnectionException, MPDDatabaseException {
         List<MPDSavedPlaylist> playlists = new ArrayList<MPDSavedPlaylist>();
 
         for (String s : listPlaylists()) {
@@ -1154,7 +1154,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<String> listPlaylists() throws MPDConnectionException, MPDDatabaseException {
+    public List<String> listPlaylists() throws MPDConnectionException, MPDDatabaseException {
         try {
             return (listInfo(ListInfoType.PLAYLIST));
         } catch (MPDResponseException re) {
@@ -1174,7 +1174,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDDatabaseException
      *          if the MPD responded with an error
      */
-    public Collection<MPDSong> listPlaylistSongs(String playlistName) throws MPDConnectionException, MPDDatabaseException {
+    public List<MPDSong> listPlaylistSongs(String playlistName) throws MPDConnectionException, MPDDatabaseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTSONGS), playlistName);
         List<String> response;
         List<MPDSong> songList;
@@ -1203,7 +1203,7 @@ public class MPDDatabase {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command
      */
-    public Collection<String> listAllYears() throws MPDConnectionException, MPDDatabaseException {
+    public List<String> listAllYears() throws MPDConnectionException, MPDDatabaseException {
         List<String> retList = new ArrayList<String>();
         for (String str : list(ListType.DATE)) {
             if (str.contains("-")) {
