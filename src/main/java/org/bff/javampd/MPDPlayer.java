@@ -254,6 +254,9 @@ public class MPDPlayer {
         String params[];
 
         if (song == null) {
+        	if (getCurrentSong() == null)
+        		throw new MPDPlayerException("No song currently playing and no song specified", prop.getProperty(MPDPROPSEEKID), null);
+        		
             if (getCurrentSong().getLength() > secs) {
                 params = new String[]{
                         Integer.toString(getCurrentSong().getId()),
