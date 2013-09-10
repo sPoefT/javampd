@@ -62,24 +62,33 @@ public abstract class MPDItem implements Comparable<MPDItem> {
             return false;
         }
 
-        MPDItem item = (MPDItem) object;
-        if (this.getName().equals(item.getName())) {
-            return (true);
-        } else {
-            return (false);
-        }
+        MPDItem other = (MPDItem) object;
+		if (name == null)
+		{
+			if (other.name != null)
+				return false;
+		}
+		else if (!name.equals(other.name))
+			return false;
+		return true;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + getName().length();
-        hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
+        hash = 31 * hash + name.length();
+        hash = 31 * hash + (null == name ? 0 : name.hashCode());
         return (hash);
     }
 
     @Override
     public int compareTo(MPDItem item) {
+    	if (this.toString() == null)
+    		return -1;
+    	
+    	if (item.toString() == null)
+    		return 1;
+    	
         return this.toString().compareTo(item.toString());
     }
 }
