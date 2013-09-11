@@ -427,21 +427,15 @@ public class MPDStandAloneMonitor
         }
     }
 
-    private int checkBitrateCount;
-
     private void checkBitrate() {
-        if (checkBitrateCount == 7) {
-            checkBitrateCount = 0;
-            if (oldBitrate != newBitrate) {
-                firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_BITRATE_CHANGE);
-                oldBitrate = newBitrate;
-            }
-        } else {
-            ++checkBitrateCount;
+        if (playerListeners.isEmpty())
+        	return;
+        
+        if (oldBitrate != newBitrate) {
+            firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_BITRATE_CHANGE);
+            oldBitrate = newBitrate;
         }
     }
-
-    private int checkOutputCount;
 
     /**
      * Checks the connection status of the MPD.  Fires a {@link ConnectionChangeEvent}
@@ -452,36 +446,33 @@ public class MPDStandAloneMonitor
      * @throws org.bff.javampd.exception.MPDResponseException
      *          if response is an error
      */
-    protected final void checkOutputs() throws MPDConnectionException, MPDResponseException {
-        if (checkOutputCount == 3) {
-            checkOutputCount = 0;
+    private void checkOutputs() throws MPDConnectionException, MPDResponseException {
+        if (outputListeners.isEmpty())
+        	return;
 
-            List<MPDOutput> outputs = new ArrayList<MPDOutput>(mpd.getMPDAdmin().getOutputs());
-            if (outputs.size() > outputMap.size()) {
-                fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
-                loadOutputs(outputs);
-            } else if (outputs.size() < outputMap.size()) {
-                fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED));
-                loadOutputs(outputs);
-            } else {
-                for (MPDOutput out : outputs) {
-                    MPDOutput output = outputMap.get(out.getId());
-                    if (output == null) {
+        List<MPDOutput> outputs = new ArrayList<MPDOutput>(mpd.getMPDAdmin().getOutputs());
+        if (outputs.size() > outputMap.size()) {
+            fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
+            loadOutputs(outputs);
+        } else if (outputs.size() < outputMap.size()) {
+            fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED));
+            loadOutputs(outputs);
+        } else {
+            for (MPDOutput out : outputs) {
+                MPDOutput output = outputMap.get(out.getId());
+                if (output == null) {
+                    fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
+                    loadOutputs(outputs);
+                    return;
+                } else {
+                    if (output.isEnabled() != out.isEnabled()) {
                         fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
                         loadOutputs(outputs);
                         return;
-                    } else {
-                        if (output.isEnabled() != out.isEnabled()) {
-                            fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
-                            loadOutputs(outputs);
-                            return;
-                        }
                     }
-
                 }
+
             }
-        } else {
-            ++checkOutputCount;
         }
     }
 
@@ -492,52 +483,43 @@ public class MPDStandAloneMonitor
         }
     }
 
-    private int checkPlaylistCount;
-
     private void checkPlaylist() {
-        if (checkPlaylistCount == 2) {
+        if (playlistListeners.isEmpty())
+        	return;
 
-            checkPlaylistCount = 0;
-            if (oldPlaylistVersion != newPlaylistVersion) {
-                firePlaylistChangeEvent(PlaylistBasicChangeEvent.PLAYLIST_CHANGED);
-                oldPlaylistVersion = newPlaylistVersion;
+        if (oldPlaylistVersion != newPlaylistVersion) {
+            firePlaylistChangeEvent(PlaylistBasicChangeEvent.PLAYLIST_CHANGED);
+            oldPlaylistVersion = newPlaylistVersion;
+        }
+
+        if (oldPlaylistLength != newPlaylistLength) {
+            if (oldPlaylistLength < newPlaylistLength) {
+                firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_ADDED);
+            } else if (oldPlaylistLength > newPlaylistLength) {
+                firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_DELETED);
             }
 
-            if (oldPlaylistLength != newPlaylistLength) {
-                if (oldPlaylistLength < newPlaylistLength) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_ADDED);
-                } else if (oldPlaylistLength > newPlaylistLength) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_DELETED);
-                }
+            oldPlaylistLength = newPlaylistLength;
+        }
 
-                oldPlaylistLength = newPlaylistLength;
+        if (status == PlayerStatus.STATUS_PLAYING) {
+            if (oldSong != newSong) {
+                firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_CHANGED);
+                oldSong = newSong;
+            } else if (oldSongId != newSongId) {
+                firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_CHANGED);
+                oldSongId = newSongId;
             }
-
-            if (status == PlayerStatus.STATUS_PLAYING) {
-                if (oldSong != newSong) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_CHANGED);
-                    oldSong = newSong;
-                } else if (oldSongId != newSongId) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_CHANGED);
-                    oldSongId = newSongId;
-                }
-            }
-        } else {
-            ++checkPlaylistCount;
         }
     }
 
-    private int checkVolumeCount;
-
     private void checkVolume() {
-        if (checkVolumeCount == 5) {
-            checkVolumeCount = 0;
-            if (oldVolume != newVolume) {
-                fireVolumeChangeEvent(newVolume);
-                oldVolume = newVolume;
-            }
-        } else {
-            ++checkVolumeCount;
+        if (volListeners.isEmpty())
+        	return;
+        
+        if (oldVolume != newVolume) {
+            fireVolumeChangeEvent(newVolume);
+            oldVolume = newVolume;
         }
     }
 
