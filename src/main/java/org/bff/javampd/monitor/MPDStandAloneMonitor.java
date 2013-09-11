@@ -59,6 +59,10 @@ public class MPDStandAloneMonitor
     private String state;
     private String error;
     private boolean stopped;
+	private int oldRepeat;
+	private int oldRandom;
+	private int oldSingleMode;
+	private int oldConsume;
     private HashMap<Integer, MPDOutput> outputMap;
 
     /**
@@ -523,6 +527,50 @@ public class MPDStandAloneMonitor
         }
     }
 
+	private void checkRepeat(int repeat)
+	{
+		if (playerListeners.isEmpty())
+			return;
+		
+		if (repeat != oldRepeat) {
+			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_REPEAT_CHANGE);
+			oldRepeat = repeat;
+		}
+	}
+
+	private void checkRandom(int random)
+	{
+		if (playerListeners.isEmpty())
+			return;
+		
+		if (random != oldRandom) {
+			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_RANDOM_CHANGE);
+			oldRandom = random;
+		}
+	}
+
+	private void checkSingleMode(int singleMode)
+	{
+		if (playerListeners.isEmpty())
+			return;
+		
+		if (singleMode != oldSingleMode) {
+			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_SINGLE_CHANGE);
+			oldSingleMode = singleMode;
+		}
+	}
+	
+	private void checkConsume(int consuming)
+	{
+		if (playerListeners.isEmpty())
+			return;
+		
+		if (consuming != oldConsume) {
+			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_CONSUME_CHANGE);
+			oldConsume = consuming;
+		}
+	}
+	
     private void processResponse(Map<String, String> response) {
         newSongId = -1;
         newSong = -1;
@@ -534,6 +582,18 @@ public class MPDStandAloneMonitor
         	
             if (StatusList.VOLUME.getStatusPrefix().equals(key)) {
                 newVolume = Integer.parseInt(value);
+            }
+            if (StatusList.REPEAT.getStatusPrefix().equals(key)) {
+            	checkRepeat(Integer.parseInt(value));
+            }
+            if (StatusList.RANDOM.getStatusPrefix().equals(key)) {
+            	checkRandom(Integer.parseInt(value));
+            }
+            if (StatusList.CONSUME.getStatusPrefix().equals(key)) {
+            	checkConsume(Integer.parseInt(value));
+            }
+            if (StatusList.SINGLE.getStatusPrefix().equals(key)) {
+            	checkSingleMode(Integer.parseInt(value));
             }
             if (StatusList.PLAYLIST.getStatusPrefix().equals(key)) {
                 newPlaylistVersion = Integer.parseInt(value);

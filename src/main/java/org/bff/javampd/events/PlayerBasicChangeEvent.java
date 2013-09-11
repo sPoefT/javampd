@@ -42,6 +42,26 @@ public class PlayerBasicChangeEvent
     public static final int PLAYER_BITRATE_CHANGE = 4;
 
     /**
+     * The random playback flag changed
+     */
+    public static final int PLAYER_RANDOM_CHANGE = 5;
+
+    /**
+     * The repeat flag changed
+     */
+    public static final int PLAYER_REPEAT_CHANGE = 6;
+    
+    /**
+     * The consume mode flag changed
+     */
+    public static final int PLAYER_CONSUME_CHANGE = 7;
+    
+    /**
+     * The single playback flag changed
+     */
+    public static final int PLAYER_SINGLE_CHANGE = 8;
+
+    /**
      * Creates a new instance of PlayerBasicChangeEvent
      *
      * @param source the object on which the Event initially occurred
