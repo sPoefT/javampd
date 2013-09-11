@@ -49,6 +49,8 @@ public class MPDPlayer {
     private static final String MPDPROPPREV = "MPD_PLAYER_PREV";
     private static final String MPDPROPREPEAT = "MPD_PLAYER_REPEAT";
     private static final String MPDPROPRANDOM = "MPD_PLAYER_RANDOM";
+    private static final String MPDPROPCONSUME = "MPD_PLAYER_CONSUME";
+    private static final String MPDPROPSINGLE = "MPD_PLAYER_SINGLE";
     private static final String MPDPROPSEEK = "MPD_PLAYER_SEEK";
     private static final String MPDPROPSEEKID = "MPD_PLAYER_SEEK_ID";
     private static final String MPDPROPSTOP = "MPD_PLAYER_STOP";
@@ -497,6 +499,86 @@ public class MPDPlayer {
         }
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPREPEAT), new String[]{repeat}));
+        } catch (MPDResponseException re) {
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+        }
+    }
+    
+    /**
+     * Returns if the player is in "single" mode.
+     *
+     * @return the player is in "single" mode.
+     * @throws org.bff.javampd.exception.MPDPlayerException
+     *          if the MPD responded with an error
+     * @throws org.bff.javampd.exception.MPDConnectionException
+     *          if there is a problem sending the command
+     */
+    public boolean isSingleMode() throws MPDConnectionException, MPDPlayerException {
+        try {
+            String single = mpd.getStatus(MPD.StatusList.SINGLE);
+            return "1".equals(single);
+        } catch (MPDResponseException re) {
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+        }
+    }
+    
+    /**
+     * Sets the single mode of the player.
+     *
+     * @param singleMode should the player play only one song
+     * @throws org.bff.javampd.exception.MPDPlayerException
+     *          if the MPD responded with an error
+     * @throws org.bff.javampd.exception.MPDConnectionException
+     *          if there is a problem sending the command
+     */
+    public void setSingleMode(boolean singleMode) throws MPDConnectionException, MPDPlayerException {
+        String param;
+        if (singleMode) 
+            param = "1"; else 
+            param = "0";
+
+        try {
+            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSINGLE), new String[]{param}));
+        } catch (MPDResponseException re) {
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+        }
+    }
+    
+    /**
+     * Returns if the player is in "consume" mode.
+     *
+     * @return the player is in "consume" mode.
+     * @throws org.bff.javampd.exception.MPDPlayerException
+     *          if the MPD responded with an error
+     * @throws org.bff.javampd.exception.MPDConnectionException
+     *          if there is a problem sending the command
+     */
+    public boolean isConsuming() throws MPDConnectionException, MPDPlayerException {
+        try {
+            String consuming = mpd.getStatus(MPD.StatusList.CONSUME);
+            return "1".equals(consuming);
+        } catch (MPDResponseException re) {
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+        }
+    }
+    
+    /**
+     * Enable/disable the consuming mode of the player.
+     *
+     * @param consuming should the player remove the song from the playlist after playing or not
+     * @throws org.bff.javampd.exception.MPDPlayerException
+     *          if the MPD responded with an error
+     * @throws org.bff.javampd.exception.MPDConnectionException
+     *          if there is a problem sending the command
+     */
+    public void setConsuming(boolean consuming) throws MPDConnectionException, MPDPlayerException {
+        String param;
+        if (consuming) 
+            param = "1"; else 
+            param = "0";
+
+        try {
+            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPCONSUME), new String[]{param}));
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }

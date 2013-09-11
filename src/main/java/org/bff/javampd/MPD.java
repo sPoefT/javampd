@@ -216,6 +216,14 @@ public class MPD {
          */
         RANDOM("random"),
         /**
+         * Play a single file only (?)
+         */
+        SINGLE("single"),
+        /**
+         * Remove from playlist after playing
+         */
+        CONSUME("consume"),
+        /**
          * the playlist version number (31-bit unsigned integer)
          */
         PLAYLIST("playlist"),
