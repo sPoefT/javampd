@@ -1179,11 +1179,8 @@ public class MPDDatabase {
         List<String> response;
         List<MPDSong> songList;
         try {
-            response = new ArrayList<String>(mpd.sendMPDCommand(command));
-            songList = new ArrayList<MPDSong>();
-            for (String s : response) {
-                songList.add(new ArrayList<MPDSong>(searchFileName(s.substring(MPD.SONGPREFIXFILE.length()).trim())).get(0));
-            }
+            response = mpd.sendMPDCommand(command);
+            songList = mpd.convertResponseToSong(response);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
