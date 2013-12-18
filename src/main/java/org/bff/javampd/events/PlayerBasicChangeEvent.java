@@ -7,16 +7,16 @@
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
  */
-
 package org.bff.javampd.events;
 
 /**
  * Represents a change in the status of a music player.
- *
+ * <p>
  * @author Bill Findeisen
  */
 public class PlayerBasicChangeEvent
         extends java.util.EventObject {
+
     private int id;
     private String msg;
 
@@ -42,28 +42,48 @@ public class PlayerBasicChangeEvent
     public static final int PLAYER_BITRATE_CHANGE = 4;
 
     /**
-     * The random playback flag changed
+     * The random playback flag changed (off)
      */
-    public static final int PLAYER_RANDOM_CHANGE = 5;
+    public static final int PLAYER_RANDOM_OFF = 5;
 
     /**
-     * The repeat flag changed
+     * The random playback flag changed (on)
      */
-    public static final int PLAYER_REPEAT_CHANGE = 6;
-    
+    public static final int PLAYER_RANDOM_ON = 6;
+
     /**
-     * The consume mode flag changed
+     * The repeat flag changed (off)
      */
-    public static final int PLAYER_CONSUME_CHANGE = 7;
-    
+    public static final int PLAYER_REPEAT_OFF = 7;
+
     /**
-     * The single playback flag changed
+     * The repeat flag changed (on)
      */
-    public static final int PLAYER_SINGLE_CHANGE = 8;
+    public static final int PLAYER_REPEAT_ON = 8;
+
+    /**
+     * The consume mode flag changed (off)
+     */
+    public static final int PLAYER_CONSUME_OFF = 9;
+
+    /**
+     * The consume mode flag changed (on)
+     */
+    public static final int PLAYER_CONSUME_ON = 10;
+
+    /**
+     * The single playback flag changed (off)
+     */
+    public static final int PLAYER_SINGLE_OFF = 11;
+
+    /**
+     * The single playback flag changed (on)
+     */
+    public static final int PLAYER_SINGLE_ON = 12;
 
     /**
      * Creates a new instance of PlayerBasicChangeEvent
-     *
+     * <p>
      * @param source the object on which the Event initially occurred
      * @param id     the specific event that occurred
      */
@@ -73,7 +93,7 @@ public class PlayerBasicChangeEvent
 
     /**
      * Creates a new instance of PlayerBasicChangeEvent
-     *
+     * <p>
      * @param source the object on which the Event initially occurred
      * @param id     the specific event that occurred
      * @param msg    an optional message
@@ -85,9 +105,9 @@ public class PlayerBasicChangeEvent
     }
 
     /**
-     * Returns specific id of the event that occurred.  The ids are public static
+     * Returns specific id of the event that occurred. The ids are public static
      * fields in the class.
-     *
+     * <p>
      * @return the specific id
      */
     public int getId() {
@@ -95,9 +115,9 @@ public class PlayerBasicChangeEvent
     }
 
     /**
-     * Returns the message attached to this event.  If there is no message null
+     * Returns the message attached to this event. If there is no message null
      * is returned.
-     *
+     * <p>
      * @return the optional message
      */
     public String getMsg() {

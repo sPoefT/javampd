@@ -29,11 +29,11 @@ import java.util.logging.Logger;
 
 /**
  * MPDStandAloneMonitor monitors a MPD connection by querying the status and
- * statistics of the MPD server at given delay intervals.  As statistics change
- * appropriate events are fired indicating these changes.  If more detailed
+ * statistics of the MPD server at given delay intervals. As statistics change
+ * appropriate events are fired indicating these changes. If more detailed
  * events are desired attach listeners to the different controllers of a
  * connection or use the {@link MPDEventRelayer} class.
- *
+ * <p>
  * @author Bill Findeisen
  * @version 1.0
  */
@@ -59,10 +59,10 @@ public class MPDStandAloneMonitor
     private String state;
     private String error;
     private boolean stopped;
-	private int oldRepeat;
-	private int oldRandom;
-	private int oldSingleMode;
-	private int oldConsume;
+    private int oldRepeat;
+    private int oldRandom;
+    private int oldSingleMode;
+    private int oldConsume;
     private HashMap<Integer, MPDOutput> outputMap;
 
     /**
@@ -96,9 +96,9 @@ public class MPDStandAloneMonitor
     private List<OutputChangeListener> outputListeners;
 
     /**
-     * Creates a new instance of MPDStandAloneMonitor using the default delay
-     * of 1 second.
-     *
+     * Creates a new instance of MPDStandAloneMonitor using the default delay of
+     * 1 second.
+     * <p>
      * @param mpd a connection to a MPD server
      */
     public MPDStandAloneMonitor(MPD mpd) {
@@ -106,9 +106,9 @@ public class MPDStandAloneMonitor
     }
 
     /**
-     * Creates a new instance of MPDStandAloneMonitor using the given delay interval
-     * for queries.
-     *
+     * Creates a new instance of MPDStandAloneMonitor using the given delay
+     * interval for queries.
+     * <p>
      * @param mpd   a connection to a MPD server
      * @param delay the delay interval
      */
@@ -134,7 +134,7 @@ public class MPDStandAloneMonitor
     /**
      * Adds a {@link PlayerBasicChangeListener} to this object to receive
      * {@link PlayerChangeEvent}s.
-     *
+     * <p>
      * @param pcl the PlayerBasicChangeListener to add
      */
     public synchronized void addPlayerChangeListener(PlayerBasicChangeListener pcl) {
@@ -143,7 +143,7 @@ public class MPDStandAloneMonitor
 
     /**
      * Removes a {@link PlayerBasicChangeListener} from this object.
-     *
+     * <p>
      * @param pcl the PlayerBasicChangeListener to remove
      */
     public synchronized void removePlayerChangeListener(PlayerBasicChangeListener pcl) {
@@ -153,7 +153,7 @@ public class MPDStandAloneMonitor
     /**
      * Sends the appropriate {@link PlayerBasicChangeEvent} to all registered
      * {@link PlayerBasicChangeListener}s.
-     *
+     * <p>
      * @param id the event id to send
      */
     protected synchronized void firePlayerChangeEvent(int id) {
@@ -167,7 +167,7 @@ public class MPDStandAloneMonitor
     /**
      * Adds a {@link VolumeChangeListener} to this object to receive
      * {@link VolumeChangeEvent}s.
-     *
+     * <p>
      * @param vcl the VolumeChangeListener to add
      */
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
@@ -176,7 +176,7 @@ public class MPDStandAloneMonitor
 
     /**
      * Removes a {@link VolumeChangeListener} from this object.
-     *
+     * <p>
      * @param vcl the VolumeChangeListener to remove
      */
     public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
@@ -186,7 +186,7 @@ public class MPDStandAloneMonitor
     /**
      * Sends the appropriate {@link VolumeChangeEvent} to all registered
      * {@link VolumeChangeListener}.
-     *
+     * <p>
      * @param volume the new volume
      */
     protected synchronized void fireVolumeChangeEvent(int volume) {
@@ -200,7 +200,7 @@ public class MPDStandAloneMonitor
     /**
      * Adds a {@link OutputChangeListener} to this object to receive
      * {@link OutputChangeEvent}s.
-     *
+     * <p>
      * @param vcl the OutputChangeListener to add
      */
     public synchronized void addOutputChangeListener(OutputChangeListener vcl) {
@@ -209,7 +209,7 @@ public class MPDStandAloneMonitor
 
     /**
      * Removes a {@link OutputChangeListener} from this object.
-     *
+     * <p>
      * @param vcl the OutputChangeListener to remove
      */
     public synchronized void removeOutputChangedListener(OutputChangeListener vcl) {
@@ -219,7 +219,7 @@ public class MPDStandAloneMonitor
     /**
      * Sends the appropriate {@link OutputChangeEvent} to all registered
      * {@link OutputChangeListener}s.
-     *
+     * <p>
      * @param event the event id to send
      */
     protected synchronized void fireOutputChangeEvent(OutputChangeEvent event) {
@@ -231,7 +231,7 @@ public class MPDStandAloneMonitor
     /**
      * Adds a {@link PlaylistBasicChangeListener} to this object to receive
      * {@link PlaylistChangeEvent}s.
-     *
+     * <p>
      * @param pcl the PlaylistChangeListener to add
      */
     public synchronized void addPlaylistChangeListener(PlaylistBasicChangeListener pcl) {
@@ -240,7 +240,7 @@ public class MPDStandAloneMonitor
 
     /**
      * Removes a {@link PlaylistBasicChangeListener} from this object.
-     *
+     * <p>
      * @param pcl the PlaylistBasicChangeListener to remove
      */
     public synchronized void removePlaylistStatusChangedListener(PlaylistBasicChangeListener pcl) {
@@ -250,7 +250,7 @@ public class MPDStandAloneMonitor
     /**
      * Sends the appropriate {@link PlaylistChangeEvent} to all registered
      * {@link PlaylistChangeListener}.
-     *
+     * <p>
      * @param id the event id to send
      */
     protected synchronized void firePlaylistChangeEvent(int id) {
@@ -264,7 +264,7 @@ public class MPDStandAloneMonitor
     /**
      * Adds a {@link MPDErrorListener} to this object to receive
      * {@link MPDErrorEvent}s.
-     *
+     * <p>
      * @param el the MPDErrorListener to add
      */
     public synchronized void addMPDErrorListener(MPDErrorListener el) {
@@ -273,7 +273,7 @@ public class MPDStandAloneMonitor
 
     /**
      * Removes a {@link MPDErrorListener} from this object.
-     *
+     * <p>
      * @param el the MPDErrorListener to remove
      */
     public synchronized void removeMPDErrorListener(MPDErrorListener el) {
@@ -283,7 +283,7 @@ public class MPDStandAloneMonitor
     /**
      * Sends the appropriate {@link MPDErrorListener} to all registered
      * {@link MPDErrorListener}s.
-     *
+     * <p>
      * @param msg the event message
      */
     protected void fireMPDErrorEvent(String msg) {
@@ -333,7 +333,6 @@ public class MPDStandAloneMonitor
                             Logger.getLogger(MPDStandAloneMonitor.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
-
                         checkConnection();
                         if (isConnectedState()) {
                             retry = false;
@@ -360,8 +359,9 @@ public class MPDStandAloneMonitor
     }
 
     /**
-     * Returns true if the monitor is stopped, false if the monitor is still running.
-     *
+     * Returns true if the monitor is stopped, false if the monitor is still
+     * running.
+     * <p>
      * @return true if monitor is running, false otherwise false
      */
     public boolean isStopped() {
@@ -370,7 +370,7 @@ public class MPDStandAloneMonitor
 
     /**
      * Returns the current status of the player.
-     *
+     * <p>
      * @return the status of the player
      */
     public PlayerStatus getStatus() {
@@ -432,9 +432,10 @@ public class MPDStandAloneMonitor
     }
 
     private void checkBitrate() {
-        if (playerListeners.isEmpty())
-        	return;
-        
+        if (playerListeners.isEmpty()) {
+            return;
+        }
+
         if (oldBitrate != newBitrate) {
             firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_BITRATE_CHANGE);
             oldBitrate = newBitrate;
@@ -442,17 +443,19 @@ public class MPDStandAloneMonitor
     }
 
     /**
-     * Checks the connection status of the MPD.  Fires a {@link ConnectionChangeEvent}
-     * if the connection status changes.
-     *
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem with the connection
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if response is an error
+     * Checks the connection status of the MPD. Fires a
+     * {@link ConnectionChangeEvent} if the connection status changes.
+     * <p>
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem with the
+     *                                                          connection
+     * @throws org.bff.javampd.exception.MPDResponseException   if response is
+     *                                                          an error
      */
     private void checkOutputs() throws MPDConnectionException, MPDResponseException {
-        if (outputListeners.isEmpty())
-        	return;
+        if (outputListeners.isEmpty()) {
+            return;
+        }
 
         List<MPDOutput> outputs = new ArrayList<MPDOutput>(mpd.getMPDAdmin().getOutputs());
         if (outputs.size() > outputMap.size()) {
@@ -488,8 +491,9 @@ public class MPDStandAloneMonitor
     }
 
     private void checkPlaylist() {
-        if (playlistListeners.isEmpty())
-        	return;
+        if (playlistListeners.isEmpty()) {
+            return;
+        }
 
         if (oldPlaylistVersion != newPlaylistVersion) {
             firePlaylistChangeEvent(PlaylistBasicChangeEvent.PLAYLIST_CHANGED);
@@ -518,82 +522,83 @@ public class MPDStandAloneMonitor
     }
 
     private void checkVolume() {
-        if (volListeners.isEmpty())
-        	return;
-        
+        if (volListeners.isEmpty()) {
+            return;
+        }
+
         if (oldVolume != newVolume) {
             fireVolumeChangeEvent(newVolume);
             oldVolume = newVolume;
         }
     }
 
-	private void checkRepeat(int repeat)
-	{
-		if (playerListeners.isEmpty())
-			return;
-		
-		if (repeat != oldRepeat) {
-			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_REPEAT_CHANGE);
-			oldRepeat = repeat;
-		}
-	}
+    private void checkRepeat(int repeat) {
+        if (playerListeners.isEmpty()) {
+            return;
+        }
 
-	private void checkRandom(int random)
-	{
-		if (playerListeners.isEmpty())
-			return;
-		
-		if (random != oldRandom) {
-			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_RANDOM_CHANGE);
-			oldRandom = random;
-		}
-	}
+        if (repeat != oldRepeat) {
+            firePlayerChangeEvent(repeat == 1 ? PlayerBasicChangeEvent.PLAYER_REPEAT_ON : PlayerBasicChangeEvent.PLAYER_REPEAT_OFF);
+            oldRepeat = repeat;
+        }
+    }
 
-	private void checkSingleMode(int singleMode)
-	{
-		if (playerListeners.isEmpty())
-			return;
-		
-		if (singleMode != oldSingleMode) {
-			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_SINGLE_CHANGE);
-			oldSingleMode = singleMode;
-		}
-	}
-	
-	private void checkConsume(int consuming)
-	{
-		if (playerListeners.isEmpty())
-			return;
-		
-		if (consuming != oldConsume) {
-			firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_CONSUME_CHANGE);
-			oldConsume = consuming;
-		}
-	}
-	
+    private void checkRandom(int random) {
+        if (playerListeners.isEmpty()) {
+            return;
+        }
+
+        if (random != oldRandom) {
+            firePlayerChangeEvent(random == 1 ? PlayerBasicChangeEvent.PLAYER_RANDOM_ON : PlayerBasicChangeEvent.PLAYER_RANDOM_OFF);
+            oldRandom = random;
+        }
+    }
+
+    private void checkSingleMode(int singleMode) {
+        if (playerListeners.isEmpty()) {
+            return;
+        }
+
+        if (singleMode != oldSingleMode) {
+            firePlayerChangeEvent(singleMode == 1 ? PlayerBasicChangeEvent.PLAYER_SINGLE_ON : PlayerBasicChangeEvent.PLAYER_SINGLE_OFF);
+            oldSingleMode = singleMode;
+        }
+    }
+
+    private void checkConsume(int consuming) {
+        if (playerListeners.isEmpty()) {
+            return;
+        }
+
+        if (consuming != oldConsume) {
+            firePlayerChangeEvent(consuming == 1 ? PlayerBasicChangeEvent.PLAYER_CONSUME_ON : PlayerBasicChangeEvent.PLAYER_CONSUME_OFF);
+            oldConsume = consuming;
+        }
+    }
+
     private void processResponse(Map<String, String> response) {
         newSongId = -1;
         newSong = -1;
         error = null;
 
         for (Entry<String, String> pair : response.entrySet()) {
-        	String key = pair.getKey();
-        	String value = pair.getValue();
-        	
+            String key = pair.getKey();
+            String value = pair.getValue();
+
             if (StatusList.VOLUME.getStatusPrefix().equals(key)) {
                 newVolume = Integer.parseInt(value);
             }
             if (StatusList.REPEAT.getStatusPrefix().equals(key)) {
-            	checkRepeat(Integer.parseInt(value));
+                checkRepeat(Integer.parseInt(value));
             }
             if (StatusList.RANDOM.getStatusPrefix().equals(key)) {
-            	checkRandom(Integer.parseInt(value));
+                checkRandom(Integer.parseInt(value));
             }
             if (StatusList.CONSUME.getStatusPrefix().equals(key)) {
-            	checkConsume(Integer.parseInt(value));
+                checkConsume(Integer.parseInt(value));
             }
             if (StatusList.SINGLE.getStatusPrefix().equals(key)) {
-            	checkSingleMode(Integer.parseInt(value));
+                checkSingleMode(Integer.parseInt(value));
             }
             if (StatusList.PLAYLIST.getStatusPrefix().equals(key)) {
                 newPlaylistVersion = Integer.parseInt(value);
