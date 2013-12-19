@@ -10,9 +10,9 @@
 package org.bff.javampd.objects;
 
 /**
- * MPDSong represents a song in the MPD database that can be inserted into
- * a playlist.
- *
+ * MPDSong represents a song in the MPD database that can be inserted into a
+ * playlist.
+ * <p>
  * @author Bill Findeisen
  * @version 1.0
  */
@@ -25,6 +25,7 @@ public class MPDSong extends MPDItem {
     private String comment;
     private String year;
     private String discNumber;
+    private String title;
     private int length;
     private int track;
     private int position = -1;
@@ -37,28 +38,26 @@ public class MPDSong extends MPDItem {
     }
 
     /**
-     * Returns the name of the song.
-     * Name and title are equal.
-     *
+     * Returns the name of the song. Name and title are equal.
+     * <p>
      * @return the name of the song.
      */
     public String getTitle() {
-        return getName();
+        return title;
     }
 
     /**
-     * Sets the name of the song.
-     * Name and title are equal.
-     *
+     * Sets the name of the song. Name and title are equal.
+     * <p>
      * @param title the name of the song
      */
     public void setTitle(String title) {
-        setName(title);
+        this.title = title;
     }
 
     /**
      * Returns the name of the artist.
-     *
+     * <p>
      * @return the name of the artist
      */
     public MPDArtist getArtist() {
@@ -67,7 +66,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the name of the artist.
-     *
+     * <p>
      * @param artist the name of the artist
      */
     public void setArtist(MPDArtist artist) {
@@ -76,7 +75,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the name of the album.
-     *
+     * <p>
      * @return the name of the album
      */
     public MPDAlbum getAlbum() {
@@ -85,7 +84,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the name of the album.
-     *
+     * <p>
      * @param album the name of the album
      */
     public void setAlbum(MPDAlbum album) {
@@ -94,7 +93,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the path of the song without a leading or trailing slash.
-     *
+     * <p>
      * @return the path of the song
      */
     public String getFile() {
@@ -102,9 +101,9 @@ public class MPDSong extends MPDItem {
     }
 
     /**
-     * Sets the path of the song.
-     * Any leading or trailing slashes will be removed.
-     *
+     * Sets the path of the song. Any leading or trailing slashes will be
+     * removed.
+     * <p>
      * @param path the path of the song
      */
     public void setFile(String path) {
@@ -113,7 +112,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the length of the song in seconds.
-     *
+     * <p>
      * @return the length of the song
      */
     public int getLength() {
@@ -122,7 +121,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the length of the song.
-     *
+     * <p>
      * @param length the length of the song in seconds
      */
     public void setLength(int length) {
@@ -131,7 +130,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the track number of the song.
-     *
+     * <p>
      * @return the track number
      */
     public int getTrack() {
@@ -140,7 +139,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the track number of the song
-     *
+     * <p>
      * @param track the track number of the song
      */
     public void setTrack(int track) {
@@ -149,7 +148,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the genre of the song.
-     *
+     * <p>
      * @return the genre of the song
      */
     public String getGenre() {
@@ -158,7 +157,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the genre of the song
-     *
+     * <p>
      * @param genre the genre of the song
      */
     public void setGenre(String genre) {
@@ -167,7 +166,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the comment tag of the song.
-     *
+     * <p>
      * @return the comment tag of the song
      */
     public String getComment() {
@@ -176,7 +175,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the comment tag of the song
-     *
+     * <p>
      * @param comment the comment tag of the song
      */
     public void setComment(String comment) {
@@ -185,7 +184,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the year of the song.
-     *
+     * <p>
      * @return the year of the song
      */
     public String getYear() {
@@ -194,7 +193,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the year of the song
-     *
+     * <p>
      * @param year the year of the song
      */
     public void setYear(String year) {
@@ -203,13 +202,14 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the string representation of this MPDSong.
-     *
+     * <p>
      * @return the string representation
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("File:").append(getFile()).append("\n");
+        sb.append("Name:").append(getName()).append("\n");
         sb.append("Title:").append(getTitle()).append("\n");
         sb.append("Artist:").append(getArtist()).append("\n");
         sb.append("Album:").append(getAlbum()).append("\n");
@@ -225,9 +225,9 @@ public class MPDSong extends MPDItem {
     }
 
     /**
-     * Returns the position of the song in the playlist. Returns
-     * a -1 if the song is not in the playlist.
-     *
+     * Returns the position of the song in the playlist. Returns a -1 if the
+     * song is not in the playlist.
+     * <p>
      * @return the position in the playlist
      */
     public int getPosition() {
@@ -235,9 +235,9 @@ public class MPDSong extends MPDItem {
     }
 
     /**
-     * Returns the playlist song id for the song. Returns
-     * a -1 if the song is not in the playlist.
-     *
+     * Returns the playlist song id for the song. Returns a -1 if the song is
+     * not in the playlist.
+     * <p>
      * @return song id of the song
      */
     public int getId() {
@@ -246,7 +246,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the playlist position for a song.
-     *
+     * <p>
      * @param position the playlist position
      */
     public void setPosition(int position) {
@@ -255,7 +255,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Sets the playlist song id for this MPDSong.
-     *
+     * <p>
      * @param id the playlist song id
      */
     public void setId(int id) {
@@ -277,86 +277,90 @@ public class MPDSong extends MPDItem {
     }
 
     @Override
-	public boolean equals(Object obj) {
-		if (!super.equals(obj))
-			return false;
-		
-		MPDSong other = (MPDSong) obj;
-		
-		// Check same file first 
-		// -> this is the best candidate for early exit
-		if (file == null)
-		{
-			if (other.file != null)
-				return false;
-		}
-		else if (!file.equals(other.file))
-			return false;
-		if (album == null)
-		{
-			if (other.album != null)
-				return false;
-		}
-		else if (!album.equals(other.album))
-			return false;
-		if (artist == null)
-		{
-			if (other.artist != null)
-				return false;
-		}
-		else if (!artist.equals(other.artist))
-			return false;
-		if (comment == null)
-		{
-			if (other.comment != null)
-				return false;
-		}
-		else if (!comment.equals(other.comment))
-			return false;
-		if (discNumber == null)
-		{
-			if (other.discNumber != null)
-				return false;
-		}
-		else if (!discNumber.equals(other.discNumber))
-			return false;
-		if (genre == null)
-		{
-			if (other.genre != null)
-				return false;
-		}
-		else if (!genre.equals(other.genre))
-			return false;
-		if (id != other.id)
-			return false;
-		if (length != other.length)
-			return false;
-		if (position != other.position)
-			return false;
-		if (track != other.track)
-			return false;
-		if (year == null)
-		{
-			if (other.year != null)
-				return false;
-		}
-		else if (!year.equals(other.year))
-			return false;
-		
-		return true;
-	}
-    
+    public boolean equals(Object obj) {
+        if (!super.equals(obj) || !(obj instanceof MPDSong)) {
+            return false;
+        }
+
+        MPDSong other = (MPDSong) obj;
+
+        // Check same file first
+        // -> this is the best candidate for early exit
+        if (file == null) {
+            if (other.file != null) {
+                return false;
+            }
+        } else if (!file.equals(other.file)) {
+            return false;
+        }
+        if (album == null) {
+            if (other.album != null) {
+                return false;
+            }
+        } else if (!album.equals(other.album)) {
+            return false;
+        }
+        if (artist == null) {
+            if (other.artist != null) {
+                return false;
+            }
+        } else if (!artist.equals(other.artist)) {
+            return false;
+        }
+        if (comment == null) {
+            if (other.comment != null) {
+                return false;
+            }
+        } else if (!comment.equals(other.comment)) {
+            return false;
+        }
+        if (discNumber == null) {
+            if (other.discNumber != null) {
+                return false;
+            }
+        } else if (!discNumber.equals(other.discNumber)) {
+            return false;
+        }
+        if (genre == null) {
+            if (other.genre != null) {
+                return false;
+            }
+        } else if (!genre.equals(other.genre)) {
+            return false;
+        }
+        if (id != other.id) {
+            return false;
+        }
+        if (length != other.length) {
+            return false;
+        }
+        if (position != other.position) {
+            return false;
+        }
+        if (track != other.track) {
+            return false;
+        }
+        if (year == null) {
+            if (other.year != null) {
+                return false;
+            }
+        } else if (!year.equals(other.year)) {
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((file == null) ? 0 : file.hashCode());
-		result = prime * result + id;
-		result = prime * result + position;
-		
-		// Assuming that the following entries don't contribute much
-		// we skip them to save some computation time
-		
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((file == null) ? 0 : file.hashCode());
+        result = prime * result + id;
+        result = prime * result + position;
+
+        // Assuming that the following entries don't contribute much
+        // we skip them to save some computation time
 //		result = prime * result + ((album == null) ? 0 : album.hashCode());
 //		result = prime * result + ((artist == null) ? 0 : artist.hashCode());
 //		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
@@ -365,9 +369,8 @@ public class MPDSong extends MPDItem {
 //		result = prime * result + length;
 //		result = prime * result + track;
 //		result = prime * result + ((year == null) ? 0 : year.hashCode());
-
-		return result;
-	}
+        return result;
+    }
 
     @Override
     public int compareTo(MPDItem item) {

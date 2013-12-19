@@ -25,9 +25,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * MPD represents a connection to a MPD server.  The commands
- * are maintained in a properties file called mpd.properties.
- *
+ * MPD represents a connection to a MPD server. The commands are maintained in a
+ * properties file called mpd.properties.
+ * <p>
  * @author Bill Findeisen
  * @version 1.0
  */
@@ -111,6 +111,10 @@ public class MPD {
      */
     protected static final String SONGPREFIXDISC = "Disc:";
     /**
+     * the MPD prefix for name
+     */
+    protected static final String SONGPREFIXNAME = "Name:";
+    /**
      * status of playing
      */
     protected static final String STATUS_PLAYING = "play";
@@ -143,8 +147,7 @@ public class MPD {
     }
 
     /**
-     * Enumeration of the available information from MPD server
-     * statistics.
+     * Enumeration of the available information from MPD server statistics.
      */
     protected enum StatList {
 
@@ -180,7 +183,7 @@ public class MPD {
 
         /**
          * Default constructor for Statistics
-         *
+         * <p>
          * @param prefix the prefix of the line in the response
          */
         StatList(String prefix) {
@@ -189,7 +192,7 @@ public class MPD {
 
         /**
          * Returns the <CODE>String</CODE> prefix of the response.
-         *
+         * <p>
          * @return the prefix of the response
          */
         public String getStatPrefix() {
@@ -198,8 +201,7 @@ public class MPD {
     }
 
     /**
-     * Enumeration of the available information from the MPD
-     * server status.
+     * Enumeration of the available information from the MPD server status.
      */
     public enum StatusList {
 
@@ -271,7 +273,7 @@ public class MPD {
 
         /**
          * Enum constructor
-         *
+         * <p>
          * @param prefix the prefix of the line in the response
          */
         StatusList(String prefix) {
@@ -280,7 +282,7 @@ public class MPD {
 
         /**
          * Returns the <CODE>String</CODE> prefix of the response.
-         *
+         * <p>
          * @return the prefix of the response
          */
         public String getStatusPrefix() {
@@ -294,22 +296,34 @@ public class MPD {
 
     /**
      * Default no argument constructor. Connects to "localhost"
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                                       if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * <p>
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
+     * @throws java.net.UnknownHostException                    If the host name
+     *                                                          used for the
+     *                                                          server is
+     *                                                          unknown to dns
      */
     public MPD() throws UnknownHostException, MPDConnectionException {
-    	this("localhost");
+        this("localhost");
     }
 
     /**
-     * Creates a new instance of MPD without authentication using the
-     * default MPD port of 6600
-     *
+     * Creates a new instance of MPD without authentication using the default
+     * MPD port of 6600
+     * <p>
      * @param server the MPD Server
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                                       if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * <p>
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
+     * @throws java.net.UnknownHostException                    If the host name
+     *                                                          used for the
+     *                                                          server is
+     *                                                          unknown to dns
      */
     public MPD(String server) throws UnknownHostException, MPDConnectionException {
         this(server, MPD_DEFAULT_PORT);
@@ -317,61 +331,87 @@ public class MPD {
 
     /**
      * Creates a new instance of MPD without authentication
-     *
+     * <p>
      * @param server the MPD Server
      * @param port   the port MPD is listening on
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                                       if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * <p>
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
+     * @throws java.net.UnknownHostException                    If the host name
+     *                                                          used for the
+     *                                                          server is
+     *                                                          unknown to dns
      */
     public MPD(String server, int port) throws UnknownHostException, MPDConnectionException {
         this(server, port, null);
     }
 
     /**
-     * Creates a new instance of MPD with authentication.  The password
-     * is used to gain access to the commands setup by the MPD administrator.
-     * Please note the password is sent plain text.
-     *
+     * Creates a new instance of MPD with authentication. The password is used
+     * to gain access to the commands setup by the MPD administrator. Please
+     * note the password is sent plain text.
+     * <p>
      * @param server   the MPD server
      * @param port     the port MPD is listening on
      * @param password the password to authenticate with
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                                       if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * <p>
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
+     * @throws java.net.UnknownHostException                    If the host name
+     *                                                          used for the
+     *                                                          server is
+     *                                                          unknown to dns
      */
     public MPD(String server, int port, String password) throws UnknownHostException, MPDConnectionException {
         this(server, port, password, 0);
     }
 
     /**
-     * Creates a new instance of MPD with authentication.  The password
-     * is used to gain access to the commands setup by the MPD administrator.
-     * Please note the password is sent plain text.
-     *
+     * Creates a new instance of MPD with authentication. The password is used
+     * to gain access to the commands setup by the MPD administrator. Please
+     * note the password is sent plain text.
+     * <p>
      * @param server  the MPD server
      * @param port    the port MPD is listening on
-     * @param timeout the amount of time in milliseconds to wait for the MPD connection
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                                       if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * @param timeout the amount of time in milliseconds to wait for the MPD
+     *                connection
+     * <p>
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
+     * @throws java.net.UnknownHostException                    If the host name
+     *                                                          used for the
+     *                                                          server is
+     *                                                          unknown to dns
      */
     public MPD(String server, int port, int timeout) throws UnknownHostException, MPDConnectionException {
         this(server, port, null, timeout);
     }
 
     /**
-     * Creates a new instance of MPD with authentication.  The password
-     * is used to gain access to the commands setup by the MPD administrator.
-     * Please note the password is sent plain text.
-     *
+     * Creates a new instance of MPD with authentication. The password is used
+     * to gain access to the commands setup by the MPD administrator. Please
+     * note the password is sent plain text.
+     * <p>
      * @param server   the MPD server
      * @param port     the port MPD is listening on
      * @param password the password to authenticate with
-     * @param timeout  the amount of time in milliseconds to wait for the MPD connection
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                                       if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * @param timeout  the amount of time in milliseconds to wait for the MPD
+     *                 connection
+     * <p>
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
+     * @throws java.net.UnknownHostException                    If the host name
+     *                                                          used for the
+     *                                                          server is
+     *                                                          unknown to dns
      */
     public MPD(String server, int port, String password, int timeout) throws UnknownHostException, MPDConnectionException {
         try {
@@ -393,11 +433,15 @@ public class MPD {
 
     /**
      * Clears the current error message in the MPD status
-     *
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     public void clearerror() throws MPDConnectionException, MPDResponseException {
         sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPCLEARERROR)));
@@ -405,11 +449,15 @@ public class MPD {
 
     /**
      * Closes the connection to the MPD server.
-     *
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     public void close() throws MPDConnectionException, MPDResponseException {
         sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPCLOSE)));
@@ -417,12 +465,17 @@ public class MPD {
 
     /**
      * Returns the time length of the music played since the server was started.
-     *
+     * <p>
      * @return the time length of the music played
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     public long getPlaytime() throws MPDConnectionException, MPDResponseException {
         return (Long.parseLong(getServerStat(StatList.PLAYTIME)));
@@ -430,12 +483,17 @@ public class MPD {
 
     /**
      * Returns the MPD server daemon uptime in seconds.
-     *
+     * <p>
      * @return the server uptime in seconds
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     public long getUptime() throws MPDConnectionException, MPDResponseException {
         return (Long.parseLong(getServerStat(StatList.UPTIME)));
@@ -443,7 +501,7 @@ public class MPD {
 
     /**
      * Returns the MPD version running on the server.
-     *
+     * <p>
      * @return the version of the MPD
      */
     public String getVersion() {
@@ -451,10 +509,10 @@ public class MPD {
     }
 
     /**
-     * Returns a {@link MPDPlayer} using this class as the connection
-     * for the player.  Multiple calls to this method will return
-     * the same {@link MPDPlayer} class.
-     *
+     * Returns a {@link MPDPlayer} using this class as the connection for the
+     * player. Multiple calls to this method will return the same
+     * {@link MPDPlayer} class.
+     * <p>
      * @return the mpd player
      */
     public synchronized MPDPlayer getMPDPlayer() {
@@ -465,10 +523,10 @@ public class MPD {
     }
 
     /**
-     * Returns a {@link MPDPlaylist} using this class as the connection
-     * for the playlist.  Multiple calls to this method will return
-     * the same {@link MPDPlaylist} class.
-     *
+     * Returns a {@link MPDPlaylist} using this class as the connection for the
+     * playlist. Multiple calls to this method will return the same
+     * {@link MPDPlaylist} class.
+     * <p>
      * @return the mpd player
      */
     public synchronized MPDPlaylist getMPDPlaylist() {
@@ -479,10 +537,10 @@ public class MPD {
     }
 
     /**
-     * Returns a {@link MPDDatabase} using this class as the connection
-     * for the database.  Multiple calls to this method will return
-     * the same {@link MPDDatabase} class.
-     *
+     * Returns a {@link MPDDatabase} using this class as the connection for the
+     * database. Multiple calls to this method will return the same
+     * {@link MPDDatabase} class.
+     * <p>
      * @return the mpd player
      */
     public synchronized MPDDatabase getMPDDatabase() {
@@ -493,10 +551,10 @@ public class MPD {
     }
 
     /**
-     * Returns a {@link MPDAdmin} using this class as the connection
-     * for the administrator.  Multiple calls to this method will return
-     * the same {@link MPDAdmin} class.
-     *
+     * Returns a {@link MPDAdmin} using this class as the connection for the
+     * administrator. Multiple calls to this method will return the same
+     * {@link MPDAdmin} class.
+     * <p>
      * @return the mpd player
      */
     public synchronized MPDAdmin getMPDAdmin() {
@@ -508,9 +566,9 @@ public class MPD {
 
     /**
      * Returns a {@link MPDEventRelayer} using this class as the connection.
-     * Multiple calls to this method will return
-     * the same {@link MPDEventRelayer} class.
-     *
+     * Multiple calls to this method will return the same
+     * {@link MPDEventRelayer} class.
+     * <p>
      * @return the MPDEventRelayer
      */
     public synchronized MPDEventRelayer getMPDEventRelayer() {
@@ -522,7 +580,7 @@ public class MPD {
 
     /**
      * Determines if there is a connection to the MPD server.
-     *
+     * <p>
      * @return true if connected to server , false if not
      */
     public boolean isConnected() {
@@ -534,46 +592,58 @@ public class MPD {
     }
 
     /**
-     * Returns the full status of the MPD server as a <CODE>Collection</CODE>
-     * of Strings.  To query specific statuses use {@link #getStatus(StatusList status)}.
-     *
+     * Returns the full status of the MPD server as a <CODE>Collection</CODE> of
+     * Strings. To query specific statuses use
+     * {@link #getStatus(StatusList status)}.
+     * <p>
      * @return the desired status information
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     public Map<String, String> getStatus() throws MPDConnectionException, MPDResponseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPSTATUS));
         List<String> respList = new ArrayList<String>(sendMPDCommand(command));
         Map<String, String> result = new HashMap<String, String>();
-        
+
         for (String entry : respList) {
-        	
-        	int splitPt = entry.indexOf(":");
-        	if (splitPt == -1) {
-	    		System.out.println("Invalid status message: " + entry);
-	    	} else {
-	       		String key = entry.substring(0, splitPt).trim();
-				String value = entry.substring(splitPt + 1).trim();
-				result.put(key, value);
-	    	}
+
+            int splitPt = entry.indexOf(":");
+            if (splitPt == -1) {
+                System.out.println("Invalid status message: " + entry);
+            } else {
+                String key = entry.substring(0, splitPt).trim();
+                String value = entry.substring(splitPt + 1).trim();
+                result.put(key, value);
+            }
         }
-        
+
         return result;
     }
 
     /**
-     * Sends a {@link MPDCommand} and its parameters to the MPD server returning the
-     * response as a <CODE>Collection</CODE> of <CODE>Strings</CODE>.  Note to
-     * check the response you may call {@link MPD#isResponseOK(String)} )}.
-     *
+     * Sends a {@link MPDCommand} and its parameters to the MPD server returning
+     * the response as a <CODE>Collection</CODE> of <CODE>Strings</CODE>. Note
+     * to check the response you may call {@link MPD#isResponseOK(String)} )}.
+     * <p>
      * @param command the command to send
+     * <p>
      * @return the response as a <CODE>Collection</CODE> of <CODE>Strings</CODE>
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     protected synchronized List<String> sendMPDCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
         byte[] bytesToSend;
@@ -649,16 +719,22 @@ public class MPD {
     }
 
     /**
-     * Sends a list of {@link MPDCommand}s all at once to the MPD server and returns
-     * true if all commands were sent successfully.  If any of the commands received
-     * as error in the response false will be returned.
-     *
+     * Sends a list of {@link MPDCommand}s all at once to the MPD server and
+     * returns true if all commands were sent successfully. If any of the
+     * commands received as error in the response false will be returned.
+     * <p>
      * @param commandList the list of {@link MPDCommand}s
+     * <p>
      * @return true if successful, false otherwise
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     protected synchronized boolean sendMPDCommands(List<MPDCommand> commandList) throws MPDConnectionException, MPDResponseException {
         boolean isOk = true;
@@ -671,7 +747,6 @@ public class MPD {
         }
 
         sb.append(convertCommand(prop.getProperty(MPDPROPENDBULK), new ArrayList<String>()));
-
 
         byte[] bytesToSend;
 
@@ -716,7 +791,7 @@ public class MPD {
 
     /**
      * Returns the properties file containing the command list for the MPD.
-     *
+     * <p>
      * @return the command list properties file
      */
     Properties getMPDProperties() {
@@ -729,16 +804,23 @@ public class MPD {
     }
 
     /**
-     * Returns the current status of the requested status element.
-     * See <code>StatusList</code> for a list of possible items returned
-     * by getStatus.
-     *
+     * Returns the current status of the requested status element. See
+     * <code>StatusList</code> for a list of possible items returned by
+     * getStatus.
+     * <p>
      * @param status the status desired
-     * @return the desired status information or <code>null</code> if not available
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @return the desired status information or <code>null</code> if not
+     *         available
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     protected String getStatus(StatusList status) throws MPDConnectionException, MPDResponseException {
         Map<String, String> result = getStatus();
@@ -747,16 +829,22 @@ public class MPD {
     }
 
     /**
-     * Returns the statistics of the requested statistics element.
-     * See <code>StatList</code> for a list of possible items returned
-     * by getServerStat.
-     *
+     * Returns the statistics of the requested statistics element. See
+     * <code>StatList</code> for a list of possible items returned by
+     * getServerStat.
+     * <p>
      * @param stat the statistic desired
+     * <p>
      * @return the requested statistic
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * <p>
+     * @throws org.bff.javampd.exception.MPDResponseException if the MPD
+     *                                                          response
+     *                                                          generates an
+     *                                                          error
+     * @throws org.bff.javampd.exception.MPDConnectionException if there is a
+     *                                                          problem sending
+     *                                                          the command to
+     *                                                          the server
      */
     protected String getServerStat(StatList stat) throws MPDConnectionException, MPDResponseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPSTATS));
@@ -772,8 +860,9 @@ public class MPD {
 
     /**
      * Converts the response from the MPD server into a {@link MPDSong} object.
-     *
+     * <p>
      * @param list the response from the MPD server
+     * <p>
      * @return a MPDSong object
      */
     protected List<MPDSong> convertResponseToSong(List<String> list) {
@@ -816,6 +905,8 @@ public class MPD {
                         song.setId(Integer.parseInt(line.substring(SONGPREFIXID.length()).trim()));
                     } else if (line.startsWith(SONGPREFIXDISC)) {
                         song.setDiscNumber(line.substring(SONGPREFIXDISC.length()).trim());
+                    } else if (line.startsWith(SONGPREFIXNAME)) {
+                        song.setName(line.substring(SONGPREFIXNAME.length()).trim());
                     }
                     if (!iter.hasNext()) {
                         break;
@@ -855,12 +946,17 @@ public class MPD {
      * version is returned.
      * <p/>
      * A timeout of 0 means an infinite wait.
-     *
+     * <p>
      * @param timeout socket timeout, 0 for infinite wait
+     * <p>
      * @return the version of MPD
-     * @throws java.io.IOException if there is a socked io problem
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                             if there are connection issues
+     * <p>
+     * @throws java.io.IOException                              if there is a
+     *                                                          socked io
+     *                                                          problem
+     * @throws org.bff.javampd.exception.MPDConnectionException if there are
+     *                                                          connection
+     *                                                          issues
      */
     protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
         BufferedReader in;
@@ -882,14 +978,18 @@ public class MPD {
     }
 
     /**
-     * Attempts to connect to MPD with an infinite timeout value.
-     * If MPD is already connected no attempt will be made to connect and the
-     * version is returned.
-     *
+     * Attempts to connect to MPD with an infinite timeout value. If MPD is
+     * already connected no attempt will be made to connect and the version is
+     * returned.
+     * <p>
      * @return return the version of MPD
-     * @throws java.io.IOException if there is a socked io problem
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                             if there are connection issues
+     * <p>
+     * @throws java.io.IOException                              if there is a
+     *                                                          socked io
+     *                                                          problem
+     * @throws org.bff.javampd.exception.MPDConnectionException if there are
+     *                                                          connection
+     *                                                          issues
      */
     private synchronized String connect() throws IOException, MPDConnectionException {
         return connect(0);
@@ -945,7 +1045,7 @@ public class MPD {
 
     /**
      * Returns the last error generated by <code>isResponseOK</code>.
-     *
+     * <p>
      * @return the error message
      */
     protected String getLastError() {
